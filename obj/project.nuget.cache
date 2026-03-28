@@ -1,0 +1,36 @@
+{
+  "version": 2,
+  "dgSpecHash": "iss77KeiLf0=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Galvik\\Documents\\Proyectos\\Wiki Soporte\\WikiProto.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Galvik\\.nuget\\packages\\anglesharp\\0.17.1\\anglesharp.0.17.1.nupkg.sha512",
+    "C:\\Users\\Galvik\\.nuget\\packages\\anglesharp.css\\0.17.0\\anglesharp.css.0.17.0.nupkg.sha512",
+    "C:\\Users\\Galvik\\.nuget\\packages\\dapper\\2.1.35\\dapper.2.1.35.nupkg.sha512",
+    "C:\\Users\\Galvik\\.nuget\\packages\\htmlsanitizer\\8.1.870\\htmlsanitizer.8.1.870.nupkg.sha512",
+    "C:\\Users\\Galvik\\.nuget\\packages\\stub.system.data.sqlite.core.netstandard\\1.0.119\\stub.system.data.sqlite.core.netstandard.1.0.119.nupkg.sha512",
+    "C:\\Users\\Galvik\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
+    "C:\\Users\\Galvik\\.nuget\\packages\\system.collections.immutable\\8.0.0\\system.collections.immutable.8.0.0.nupkg.sha512",
+    "C:\\Users\\Galvik\\.nuget\\packages\\system.data.sqlite.core\\1.0.119\\system.data.sqlite.core.1.0.119.nupkg.sha512",
+    "C:\\Users\\Galvik\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
+    "C:\\Users\\Galvik\\.nuget\\packages\\system.text.encoding.codepages\\6.0.0\\system.text.encoding.codepages.6.0.0.nupkg.sha512",
+    "C:\\Users\\Galvik\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.22\\microsoft.netcore.app.ref.8.0.22.nupkg.sha512",
+    "C:\\Users\\Galvik\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.22\\microsoft.windowsdesktop.app.ref.8.0.22.nupkg.sha512",
+    "C:\\Users\\Galvik\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.22\\microsoft.aspnetcore.app.ref.8.0.22.nupkg.sha512",
+    "C:\\Users\\Galvik\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\8.0.22\\microsoft.netcore.app.host.win-x64.8.0.22.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "message": "El paquete \"HtmlSanitizer\" 8.1.870 tiene una vulnerabilidad de gravedad moderada conocida, https://github.com/advisories/GHSA-j92c-7v7g-gj3f",
+      "projectPath": "C:\\Users\\Galvik\\Documents\\Proyectos\\Wiki Soporte\\WikiProto.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\Galvik\\Documents\\Proyectos\\Wiki Soporte\\WikiProto.csproj",
+      "libraryId": "HtmlSanitizer",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
+}

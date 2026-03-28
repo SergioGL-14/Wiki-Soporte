@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>aspnet-wiki-proto</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Data.SQLite.Core" Version="1.0.119" />
+    <PackageReference Include="Dapper" Version="2.1.35" />
+    <PackageReference Include="HtmlSanitizer" Version="8.1.870" />
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Include the Data folder (SQLite DB) in publish output -->
+    <Content Include="Data\**\*">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <!-- Ensure SPA static assets are included in publish output -->
+    <Content Include="static-wiki\\**\\*">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+</Project>

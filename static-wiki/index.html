@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Wiki</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="top-inner">
+      <div class="brand">
+        <a href="#/">Wiki <span class="brand-sub">Interna</span></a>
+      </div>
+      <div class="search">
+        <span class="search-icon">Buscar</span>
+        <input id="searchInput" placeholder="Buscar articulos, temas..." aria-label="Buscar" />
+        <span class="search-shortcut">/</span>
+      </div>
+      <div class="actions">
+        <button id="menuToggle" class="btn small" title="Abrir menu">
+          <span class="menu-toggle-bars" aria-hidden="true"></span>
+          <span>Menu</span>
+        </button>
+      </div>
+    </div>
+    <!-- Global notification container -->
+    <div id="globalNotification" class="notification global-notification" style="display:none"></div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-inner">
+        <!-- Removed static "Categorias" and "Ultimas" panels to keep sidebar minimal. -->
+        <div class="panel" id="categoriesPanel">
+          <h3>Panel</h3>
+          <ul id="sidebarList"></ul>
+        </div>
+      </div>
+    </aside>
+
+    <section class="content" id="contentArea">
+      <div id="homeView" class="home-view">
+        <h1 class="section-heading">Inicio</h1>
+        <p class="lead">Consulta procedimientos, avisos e incidencias de forma rapida.</p>
+        <div class="metrics-strip" aria-label="Resumen rapido">
+          <article class="metric-card">
+            <span class="metric-label">Articulos</span>
+            <strong id="metricTotalPages">0</strong>
+          </article>
+          <article class="metric-card">
+            <span class="metric-label">Categorias</span>
+            <strong id="metricTotalCategories">0</strong>
+          </article>
+          <article class="metric-card metric-card-wide">
+            <span class="metric-label">Ultima actualizacion</span>
+            <strong id="metricLastUpdated">Sin datos</strong>
+          </article>
+        </div>
+        <div class="home-grid">
+          <section class="featured home-card">
+            <div class="section-header">
+              <h2>Avisos</h2>
+            </div>
+            <div id="homeNoticesContainer" class="home-panel-body">
+              <ul id="noticesList"></ul>
+            </div>
+          </section>
+          <section class="featured home-card">
+            <div class="section-header">
+              <h2>Incidencias</h2>
+            </div>
+            <div id="homeIncidentsContainer" class="home-panel-body">
+              <div id="homeIncidentsInner">Cargando incidencias...</div>
+            </div>
+          </section>
+        </div>
+        <div class="featured">
+          <div class="section-header">
+            <h2>Recientes</h2>
+            <span id="recentCountBadge" class="section-badge">0</span>
+          </div>
+          <ul id="featuredList"></ul>
+        </div>
+      </div>
+      <div id="noticesPage" class="categories-page" style="display:none">
+        <div class="edit-page-header">
+          <h1>Avisos</h1>
+          <p>Crear y gestionar avisos rapidos</p>
+        </div>
+        <div class="form-card-spa">
+          <div id="noticeNotification" class="notification" style="display:none"></div>
+          <div class="form-group">
+            <label for="noticeTitle">Titulo</label>
+            <input id="noticeTitle" class="form-input" placeholder="Titulo breve" />
+          </div>
+          <div class="form-group">
+            <label for="noticeBody">Texto</label>
+            <textarea id="noticeBody" class="form-input" rows="4" placeholder="Texto descriptivo..."></textarea>
+          </div>
+          <div class="form-actions">
+            <button id="noticeCreateBtn" class="btn btn-primary">Crear aviso</button>
+            <button id="noticeCancelBtn" class="btn">Cancelar</button>
+          </div>
+        </div>
+
+        <div style="margin-top:24px" class="form-card-spa">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <h3 style="margin:0">Avisos existentes</h3>
+            <input id="noticeSearch" class="form-input" placeholder="Buscar avisos..." style="max-width:360px;" />
+          </div>
+          <div id="noticesContainer" style="margin-top:12px">Cargando avisos...</div>
+        </div>
+      </div>
+      <div id="diagramsPage" class="categories-page" style="display:none">
+          <div class="edit-page-header">
+            <h1>Diagramas</h1>
+            <p>Sube, visualiza y gestiona diagramas (.html)</p>
+          </div>
+          <div class="form-card-spa">
+            <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+              <input id="diagramFile" type="file" accept=".html" />
+              <input id="diagramName" placeholder="Nombre (opcional)" class="form-input" />
+              <input id="diagramDesc" placeholder="Descripcion (opcional)" class="form-input" />
+              <button id="diagramUploadBtn" class="btn btn-primary">Subir diagrama</button>
+            </div>
+          </div>
+          <div style="margin-top:12px">
+            <input id="diagramSearch" placeholder="Buscar diagramas por nombre..." class="form-input" style="margin-bottom:8px; max-width:420px; display:block;" />
+            <div id="diagramGrid" class="diagram-grid" style="padding:8px">Cargando diagramas...</div>
+          </div>
+      </div>
+
+      <div id="incidentsPage" class="categories-page" style="display:none">
+        <div class="edit-page-header">
+          <h1>Incidencias</h1>
+          <p>Tablero tipo planner. Crea columnas y anade incidencias (tarjetas).</p>
+        </div>
+        <div class="form-card-spa">
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <input id="newBoardName" placeholder="Nueva columna (ej. Antivirus)" class="form-input" />
+            <button id="createBoardBtn" class="btn btn-primary">Crear columna</button>
+          </div>
+        </div>
+        <div style="margin-top:12px">
+          <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;flex-wrap:wrap">
+            <input id="incidentsSearchInput" class="form-input" placeholder="Buscar incidencias (por columna o texto)..." style="flex:1;min-width:200px" />
+            <label style="display:flex;align-items:center;gap:8px"><input id="incidentsShowResolved" type="checkbox" /> Mostrar incidencias resueltas</label>
+          </div>
+          <div id="incidentsBoardContainer" class="incidents-board-container">Cargando...</div>
+          <div id="incidentsResolvedContainer" style="display:none;margin-top:12px"></div>
+        </div>
+
+        <!-- Card modal -->
+        <div id="cardModal" class="modal" style="display:none">
+          <div class="modal-content">
+            <h3 id="cardModalTitle">Nueva incidencia</h3>
+            <input id="cardTitleInput" placeholder="Titulo" class="form-input" />
+            <textarea id="cardDescInput" placeholder="Descripcion" class="form-input" rows="4"></textarea>
+            <select id="cardBoardSelect" class="form-select"></select>
+            <div class="modal-actions" style="margin-top:8px;display:flex;gap:8px;justify-content:flex-end">
+              <button id="saveCardBtn" class="btn btn-primary">Guardar</button>
+              <button id="cancelCardBtn" class="btn">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="categoriesPage" class="categories-page" style="display:none">
+          <div class="edit-page-header">
+            <h1>Categorias</h1>
+            <p>Organizacion y gestion de categorias.</p>
+          </div>
+        
+        <div class="form-card-spa">
+          <div id="catNotification" class="notification" style="display:none"></div>
+          
+          <div class="form-group">
+            <label for="newCatName">Crear nueva categoria</label>
+            <form id="catCreateForm" class="cat-create-form-modern">
+              <input id="newCatName" placeholder="Nombre de la categoria" class="form-input" />
+              <select id="newCatParent" class="form-select"><option value="">-- Ninguno (raiz) --</option></select>
+              <button type="button" id="catCreateBtn" class="btn btn-primary">Crear categoria</button>
+            </form>
+          </div>
+          
+          <div class="form-group" style="margin-top: 24px;">
+            <label for="catSearch">Buscar categoria</label>
+            <input id="catSearch" class="form-input" placeholder="Buscar por nombre..." />
+          </div>
+
+          <div id="categoriesContainer" style="margin-top: 24px;">
+            <!-- Categories list will be rendered here -->
+          </div>
+        </div>
+      </div>
+      <div id="viewPage" class="page-view" style="display:none">
+        <nav id="breadcrumbs" class="breadcrumbs"></nav>
+        <h2 id="viewTitle" class="page-title"></h2>
+        <div id="viewMeta" class="meta"></div>
+        <article id="viewHtml" class="article wiki-article"></article>
+        <div class="pageActions">
+          <button id="btnCopyLink" class="btn">Copiar enlace</button>
+          <button id="btnDelete" class="btn btn-danger">Eliminar</button>
+          <button id="btnEdit" class="btn">Editar</button>
+          <button id="btnBack" class="btn">Volver</button>
+        </div>
+      </div>
+
+      <div id="editor" class="editor" style="display:none">
+        <div class="edit-page-header">
+          <h1 id="editorTitle">Crear pagina</h1>
+          <p id="editorSubtitle">Crear un nuevo procedimiento.</p>
+        </div>
+        
+        <div class="form-card-spa">
+          <div class="form-group">
+            <label for="titleInput">Titulo del articulo *</label>
+            <input type="text" id="titleInput" placeholder="Ej: Como configurar el sistema" required />
+            <span class="auto-slug-preview" id="slugPreviewSPA" style="display: none;"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="categorySelectSPA">Categoria</label>
+            <div class="category-selector">
+              <!-- Desplegable manual para seleccionar categorias -->
+              <select id="categorySelectSPA" class="form-select">
+                <option value="">-- Selecciona una categoria --</option>
+              </select>
+              
+              <!-- Busqueda de categorias -->
+              <div class="category-search-wrapper" style="margin-top: 12px;">
+                <label for="categoryInputSPA" style="font-size: 0.9em; color: #64748b;">O busca por nombre:</label>
+                <div class="category-input-wrapper" id="catInputWrapperSPA">
+                  <input type="text" id="categoryInputSPA" placeholder="Buscar categoria..." autocomplete="off" />
+                  <span class="clear-icon" id="clearCatInputSPA">x</span>
+                </div>
+                <div class="category-dropdown" id="categoryDropdownSPA"></div>
+              </div>
+              
+              <!-- Categorias seleccionadas -->
+              <div class="selected-categories" id="selectedCategoriesSPA"></div>
+
+              <div class="category-quick-actions">
+                <button type="button" id="toggleQuickCategoryCreate" class="btn">Nueva categoria</button>
+              </div>
+
+              <div id="quickCategoryCreatePanel" class="quick-category-create" hidden>
+                <div class="quick-category-grid">
+                  <input id="quickCategoryName" class="form-input" placeholder="Nombre de la nueva categoria" />
+                  <select id="quickCategoryParent" class="form-select">
+                    <option value="">-- Categoria raiz --</option>
+                  </select>
+                </div>
+                <div class="quick-category-actions">
+                  <button type="button" id="quickCategoryCreateBtn" class="btn btn-primary">Crear y usar</button>
+                  <button type="button" id="quickCategoryCancelBtn" class="btn">Cancelar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="quillEditor">Contenido del articulo *</label>
+            <div id="quillEditor" style="min-height: 400px;"></div>
+          </div>
+
+          <div class="form-actions">
+            <button id="btnSave" class="btn btn-primary">Guardar articulo</button>
+            <button id="btnCancel" class="btn btn-secondary">Cancelar</button>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="foot">&copy; Wiki interna</footer>
+
+  <!-- Quill.js for rich text editing. app-api.js activa un fallback basico si esta libreria no carga. -->
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+  
+  <script src="app-api.js"></script>
+  <!-- Global diagram modal (moved out of diagrams page to avoid clipping) -->
+  <div id="diagramModal" class="diagram-modal" style="display:none;">
+    <div class="diagram-modal-bg"></div>
+    <div class="diagram-modal-content">
+      <button id="diagramModalClose">Cerrar</button>
+      <iframe id="diagramPreview" src="" frameborder="0"></iframe>
+    </div>
+  </div>
+
+  <button id="backToTop" title="Volver arriba">Subir</button>
+  <script>
+    // Sidebar toggle for mobile
+    (function(){
+      const menuToggle = document.getElementById('menuToggle');
+      const sidebar = document.getElementById('sidebar');
+      // header dropdown for small menu (position anchored to button)
+      const headerMenu = document.createElement('div');
+      headerMenu.id = 'headerMenu';
+      headerMenu.className = 'header-menu-popover';
+      headerMenu.style.position = 'absolute';
+      headerMenu.style.background = 'rgba(255,255,255,0.98)';
+      headerMenu.style.border = '1px solid rgba(37,99,235,0.14)';
+      headerMenu.style.borderRadius = '16px';
+      headerMenu.style.boxShadow = '0 14px 32px rgba(37,99,235,0.14)';
+      headerMenu.style.padding = '10px';
+      headerMenu.style.display = 'none';
+      headerMenu.style.zIndex = 10000;
+      headerMenu.style.minWidth = '230px';
+      headerMenu.style.maxWidth = '320px';
+      headerMenu.innerHTML = '<ul class="header-menu-list">'
+        + '<li><a id="menuItemAddPage" class="header-menu-link" href="#"><span class="menu-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/><path d="M8 3h8a2 2 0 0 1 2 2v14H6V5a2 2 0 0 1 2-2z"/></svg></span><span class="menu-link-label">Nueva pagina</span></a></li>'
+        + '<li><a id="menuItemNotices" class="header-menu-link" href="#"><span class="menu-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 1 1 12 0v5l2 3H4l2-3z"/><path d="M10 19a2 2 0 0 0 4 0"/></svg></span><span class="menu-link-label">Avisos</span></a></li>'
+        + '<li><a id="menuItemDiagramas" class="header-menu-link" href="#"><span class="menu-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 19V9"/><path d="M12 19V5"/><path d="M19 19v-7"/></svg></span><span class="menu-link-label">Diagramas</span></a></li>'
+        + '<li><a id="menuItemCategories" class="header-menu-link" href="#"><span class="menu-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 7h6l2 2h10v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M3 7V6a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v1"/></svg></span><span class="menu-link-label">Categorias</span></a></li>'
+        + '<li><a id="menuItemIncidencias" class="header-menu-link" href="#"><span class="menu-link-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 8v5"/><path d="M12 17h.01"/><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/></svg></span><span class="menu-link-label">Incidencias</span></a></li>'
+        + '</ul>';
+      document.body.appendChild(headerMenu);
+
+      menuToggle.addEventListener('click', function(e){
+        e.stopPropagation();
+        sidebar.classList.toggle('open');
+        // toggle visibility anchored to the button
+        if (headerMenu.style.display === 'block') { headerMenu.style.display = 'none'; return; }
+        // show hidden then measure to compute position
+        headerMenu.style.display = 'block'; headerMenu.style.visibility = 'hidden';
+        const rect = menuToggle.getBoundingClientRect();
+        const menuW = headerMenu.offsetWidth || 160;
+        let left = rect.right - menuW;
+        // keep within viewport
+        if (left < 8) left = 8;
+        const top = rect.bottom + window.scrollY + 6;
+        headerMenu.style.left = (left + window.scrollX) + 'px';
+        headerMenu.style.top = (rect.bottom + window.scrollY + 6) + 'px';
+        headerMenu.style.visibility = 'visible';
+      });
+
+      // close menu when clicking outside
+      document.addEventListener('click', function(ev){
+        if (!headerMenu.contains(ev.target) && ev.target !== menuToggle) {
+          headerMenu.style.display = 'none';
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
